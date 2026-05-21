@@ -1,145 +1,125 @@
-# DataCops vs Verisoul: the layer earlier in the AI-bot signup fight
+# DataCops vs Verisoul
 
-Let's be real. The AI-bot signup problem stopped being theoretical in 2025.
+**650 fake accounts. One device fingerprint.** That is what a friend's team at PillarlabAI found when they ran a honeypot on a launch waitlist. 3,000 signups looked great on the dashboard.
 
-Verisoul (the people who raised an $8.8M Series A from High Alpha in December 2025) reported a 250% year-over-year surge in AI-driven fraud attack volume. CrowdStrike clocked AI-enabled attacks up 89% in the same window. OnSefy estimates that 20 to 30% of new account registrations on free-trial SaaS platforms are fraudulent or bot-generated, costing the category roughly $2.8B in 2024 alone. And the headline that finally made the boards pay attention: Anthropic, in April 2026, had to cut off 135,000 third-party AI agent instances running against its Claude subscriptions. That's not a long-tail abuse story. That's a first-tier vendor admitting agentic abuse hit the subscription tier directly.
+**77% of them were fraud.** The verification tool they were paying for caught most of the obvious ones at the door. It still let the operation poison their ad data, because by the time a verification tool says "this account is fake," the click that created it already fired into Meta.
 
-Which is why every fraud-tool comparison page suddenly reads the same. "Verisoul vs Sift." "SEON vs Verisoul." "Fingerprint vs Sift vs Verisoul." Pick a checkmark grid, pick a winner, write a verdict.
+> That is the gap nobody puts on a comparison page. So let me.
 
-None of them ask the question that actually saves money in 2026. Which is: when you spent $25 in Meta ad budget to acquire that fake signup, do you know which campaign, ad set, and creative paid for it?
+**This is not a "[Verisoul](/alternative/verisoul-alternative) is bad" post.** Verisoul is good at what it does. It checks whether a user is real, unique, and trusted at the moment of signup.
 
-Verisoul tells you the user is fake. DataCops tells you which Meta ad set you wasted budget on to acquire that fake. Same problem from one layer earlier. This is the brutally honest read on both, with pricing, real frustrations, and where they each actually fit in 2026.
+If you run a marketplace where one fake account equals real money lost, that uniqueness layer earns its keep. I am not here to talk you out of it.
 
-No em-dashes, no vendor copy. Just the work.
+This is a post about where Verisoul sits in your stack, and what sits one layer earlier. Verisoul verifies the people who reach the form.
 
----
+It does not own the question of whether [bot traffic](/resources/best-invalid-traffic-detection-tools-2026) should have reached the form at all, or what your ad platforms learned from the fake clicks that did. DataCops is the answer to that earlier question: [first-party trust infrastructure](/fraud-traffic-validation) that filters bot signups before they hit a per-check verification bill, and ties every fraudulent signup back to the campaign that delivered it.
+
+See [SignupCops](/signup-cops) for the signup-side layer.
 
 ## Quick stuff people keep asking
 
-**What does Verisoul actually do?** Identity verification at signup. Device fingerprinting, FaceMatch, Phone Intelligence, AML screening. Per-check pricing model. You call their API at signup, they return a risk score and a verdict. Strong product, enterprise-leaning sales motion.
+**What is the best alternative to Verisoul?** Depends what you actually need. If you need full real/unique/trusted-user verification for a high-stakes marketplace, the honest alternatives are [Sift](/alternative/sift-alternative) and [SEON](/alternative/seon-alternative). If what you really need is to stop bot signups and stop them from corrupting your ad spend, that is a different tool, and DataCops is built for that job specifically.
 
-**How much does Verisoul cost?** Published pricing is roughly $0.25 per identity check, dropping to $0.12 at higher volume. Verisoul's own marketing says customers replace 4 vendors and spend 32% less on average. The per-check model adds up fast on freemium SaaS where 20 to 30% of signups are bots.
+**How does Verisoul detect fake accounts?** Device fingerprinting, uniqueness checks across its network, behavioral signals, and risk scoring at the API call. It is designed to answer "is this a real human, and have we seen them before."
 
-**Is DataCops a Verisoul replacement?** Not in the strict sense. DataCops sits one layer earlier. It blocks bot signups, datacenter IPs, VPN exits, and disposable-email patterns at the form before a per-check verification fires. For SMB and mid-market that don't need full KYC-grade verification, DataCops can replace Verisoul. For enterprises that need government-ID FaceMatch and AML screening, Verisoul stays in the stack and DataCops sits in front of it.
+**What is the difference between Verisoul and Sift?** Sift is the older, broader fraud platform - payments, content abuse, account takeover, the full suite, enterprise [pricing](/pricing). Verisoul is narrower and newer, focused tightly on account verification and uniqueness.
 
-**What's the difference between Verisoul and Sift?** Sift is a 16,000+-signal blackbox ML engine across 34,000+ sites with no transparent pricing. Verisoul is more transparent, faster to deploy, and built around per-check identity verification. Sift wins on volume scoring depth. Verisoul wins on transparency, deployment time, and customer support. Both are enterprise-priced.
+Sift has more surface area. Verisoul is simpler to reason about.
 
-**Why does ad-channel correlation matter for fraud?** Because every fake signup has a UTM, an ad set, a creative. Verisoul, Sift, and SEON throw that data away when they return a verdict. If you don't tie the fake user back to the campaign that paid for it, your Meta and Google optimization is being trained on bots, your CAC numbers are wrong, and you keep buying the same bad inventory. The fraud verdict alone doesn't fix the budget bleed.
+**How much does Verisoul cost?** Verisoul does not publish flat pricing. It is a sales-led, usage-based contract quoted per verification volume. Budget for a real procurement conversation, not a credit-card signup.
 
----
+**Does Verisoul work with custom signup flows?** Yes. It is API and SDK based, so it drops into custom flows rather than forcing you onto a hosted auth UI.
 
-## Tier 1: signup verification platforms (post-form, per-check)
+**What is uniqueness verification?** Checking that one human is not creating many accounts. It catches the multi-account abuse pattern - referral farming, free-trial abuse, review manipulation. It is Verisoul's signature strength.
 
-This tier verifies the user after they hit submit. Identity, device, phone, AML. Strong defense, real per-check costs, and the verdict lives in a separate dashboard from your ad analytics.
+**Is Verisoul GDPR compliant?** Verisoul operates as a third-party processor and supports compliant configurations. But fingerprinting and device intelligence are processing activities you have to disclose and account for. "The vendor is compliant" is not the same as "your deployment is compliant."
 
-**1. Verisoul**
+## The fake account on your dashboard already cost you twice
 
-The Good: Higher accuracy and fewer false positives than legacy fraud tools per G2 reviews. Sub-minute support response time. Clean API, fast deployment. Founded by ex-TransUnion, Capital One, and Meta fraud team. Logos like Clay, Augment Code, and Morning Consult validate the AI-native ICP. Aggressive AI-bot positioning post the December 2025 Series A.
+Here is the part that gets skipped. A bot signup is not one problem. It is two, and the second one is the expensive one.
 
-Frustrations: Per-check pricing at $0.25 (down to $0.12 at volume) compounds on freemium and free-trial SaaS where bot rates are 20 to 30%. End-user friction during facial recognition checks shows up consistently in Trustpilot complaints (multiple attempts required, limited recourse when the verification fails). No native ad-channel correlation, so the fake verdict doesn't tie back to the Meta or Google ad set that delivered the user. Post-Series A motion is enterprise-skewed, which thins the SMB ICP.
+Problem one: the fake account exists. It clutters your user table, skews your activation numbers, maybe abuses a free trial.
 
-Wish List: A pre-verification filter so the per-check fee doesn't fire on obvious datacenter and disposable-email signups. Native ad-channel passthrough so verdicts arrive in the marketing dashboard, not just the security one.
+A verification tool handles this. Verisoul handles this well.
 
-Value for Money: 7.5/10. Strong product for AI-native and high-trust verticals. The economics get harder as bot rate rises and check volume scales.
+Problem two: that fake signup was a conversion event. Somewhere upstream, an ad clicked, a pixel fired, and Meta or Google recorded a conversion.
 
-Pricing: Approximately $0.25 per identity check, $0.12 at higher volume. Enterprise-style negotiation for custom volume.
+Your verification tool can delete the account an hour later. It cannot un-send the conversion signal.
 
----
+The ad platform already wrote it down.
 
-**2. Sift**
+Now run that forward. Of the signups any analytics tool collects, industry honeypot work puts roughly 24 to 31% as bot-originated during agent surges.
 
-The Good: Deepest data network in the category. 16,000+ signals across 34,000+ sites means the model has seen most fraud patterns before yours. Strong for marketplaces, payments, and account takeover at scale.
+Every one of those fake conversions tells Meta's optimizer "find me more people like this." So it does. It finds more bots, because bots are what it was rewarded for finding.
 
-Frustrations: Blackbox scoring, opaque pricing, enterprise sales motion. Hard to debug a false positive. The verdict is decoupled from the ad pipeline. Mid-market buyers feel priced out.
+Your cost per real signup climbs, your [ROAS](/resources/facebook-roas-improvement-guide-from-black-box-to-profit-engine) degrades, and the dashboard still says conversions are up. Garbage in, garbage optimized, garbage out.
 
-Wish List: Transparent pricing. Score explainability that doesn't require a customer success call.
+That is the PillarlabAI story. 3,000 signups, 77% fraud, 650 of them traced to a single device fingerprint. The verification layer eventually flagged them.
 
-Value for Money: 6.5/10. Right tool for global marketplaces. Wrong tool for ad-driven SMB SaaS.
+But the campaigns that bought them kept running, kept getting "rewarded," kept scaling. The fraud was not just in the user table.
 
-Pricing: Custom enterprise. Most quotes start mid-five-figures annually.
+It was in the bidding algorithm.
 
----
+The root cause is structural. Bot signups and real signups arrive mixed, through third-party scripts, and nothing isolates them before the data leaves your infrastructure and trains someone else's model.
 
-**3. SEON**
+Verisoul cleans the user table. It does not clean the ad-platform feedback loop.
 
-The Good: Strong digital footprint analysis. Email and phone enrichment is genuinely useful at the form. Reasonable mid-market pricing relative to Sift. Recently added government-issued ID verification, AML screening, and Proof of Address (POA) in 2026.
+Nothing that lives at the verification layer can, because by then the click is already gone.
 
-Frustrations: 2026 product roadmap is drifting toward KYC and AML, which thins the fit for ad-driven SaaS that just needs bot and fake-account filtering. No CAPI integration. No first-party analytics layer.
+## DataCops vs Verisoul, honestly
 
-Wish List: A roadmap that doesn't keep moving toward fintech compliance and away from SaaS abuse.
+Different layers. Read it that way.
 
-Value for Money: 7/10. Solid for fintech-adjacent SaaS. Less of a fit for paid-acquisition B2C.
+**Verisoul.**
 
-Pricing: Tiered, roughly $599/mo entry to enterprise. Custom for the AML/KYC modules.
+**What it is:** a real/unique/trusted-user verification platform, API-first, strong on uniqueness and multi-account abuse.
 
----
+**What it does well:** catches one-human-many-accounts patterns, integrates into custom flows, gives you a clean trust verdict at signup.
 
-## Tier 2: device fingerprint building blocks
+**Where it breaks:** it is a verification verdict, not an architecture. It tells you an account is fake after the conversion already fired to your ad platforms - it has no view of which campaign delivered the fraud and no way to correct the signal Meta and Google already optimized on. It is also sales-led and usage-priced, so a bot surge that triples your fake-signup volume also triples what you pay to verify garbage.
 
-This tier is the developer-friendly fingerprint layer that you bolt under a verification tool. Cheaper, more flexible, less complete on its own.
+**Value for money:** 7.5/10 for marketplaces with real per-account loss. Lower if you are a marketing-led SaaS team paying verification rates for a problem that is mostly ad-traffic hygiene.
 
-**4. Fingerprint (formerly FingerprintJS)**
+**Pricing:** custom, usage-based, sales-quoted.
 
-The Good: Best-in-class browser fingerprinting. Dev-friendly, well-documented, fair pricing. Frequently the lower-cost building block under Verisoul or Sift.
+**DataCops (SignUp Cops).**
 
-Frustrations: Single-product. No CAPI. No consent. No first-party analytics. You'll still need three other vendors to close the loop on ad-driven fraud.
+**What it is:** first-party trust infrastructure that runs on your own subdomain, scoring signups for fraud in the same pipeline that ships your analytics and Meta/Google/TikTok/LinkedIn [CAPI](/conversion-api).
 
-Wish List: Native server-side CAPI passthrough so fingerprint identity flows to ad platforms. Native ad-channel correlation.
+**What it does well:** filters bot signups at ingestion before they cost you a per-check fee, and - this is the part Verisoul structurally cannot do - ties each fraudulent signup back to the exact ad campaign and channel that delivered it, then feeds clean conversion data forward so the ad platforms optimize on humans. IP intelligence spans residential, datacenter, VPN, proxy and Tor across a 361.8 billion-plus IP database. Free tier covers 2,000 signup verifications a month.
 
-Value for Money: 7.5/10 as a building block. 5/10 as a complete signup defense.
+**Where it breaks:** be straight about it. [SOC 2](/enterprise) Type II is in progress, so a regulated enterprise buyer in procurement may need to wait.
 
-Pricing: Free up to a low usage cap. Paid plans tiered by API call volume.
+It is a newer brand than Sift or SEON. And it is not trying to be a full uniqueness-verification suite - if your core need is deep one-human-many-accounts adjudication for a high-value marketplace, Verisoul or Sift do that specific job deeper.
 
----
+The shared CAPI distribution is still in verification, so do not deploy it expecting that piece fully live on day one.
 
-## Tier 3: first-party trust infrastructure (the layer earlier)
+**Value for money:** 8.5/10 for marketing-led SaaS, leadgen and ecommerce.
 
-This tier sits before the verification call. Block bots, datacenter IPs, VPN exits, disposable-email patterns, and proxy traffic at the form. Tie every signup, real or fake, to the ad set and creative that delivered it. Bundle CAPI, fraud, consent, and analytics on the same first-party pipeline.
+**Pricing:** free 2,000 verifications/mo, paid tiers scale from there.
 
-**5. DataCops**
+## Decision guide
 
-The Good: SignUp Cops scores risk at the form using IP intelligence (residential vs. datacenter vs. VPN vs. proxy vs. Tor), browser fingerprinting (canvas, WebGL, audio, screen, fonts), and email validation (disposable domain, fresh domain, alias technique). Sits on the same first-party CNAME pipeline (`datacops.yourdomain.com`) that already filters traffic via Fraud Traffic Validation, dispatches server-side conversions to Meta CAPI, Google Ads CAPI, TikTok Events API, and LinkedIn Insight CAPI, and runs first-party analytics on top. Same pipeline means every signup, real or fake, is stitched to the campaign, ad set, and creative that delivered it. Replaces the reCAPTCHA + email-verification stack. Real free tier with 500 signup verifications and unlimited bot detection. Paid plans start at $7.99/mo Growth, $49/mo Business, $299/mo Organization, billed annually per website. Setup is paste one script and add one CNAME, live in 5 to 30 minutes.
+You run a marketplace where one fake account equals direct financial loss: Verisoul or Sift, full verification.
 
-Frustrations: Not a full KYC or AML stack. No FaceMatch. No government-ID verification. SOC 2 Type II is in progress, not done. ISO 27001 is planned. SSO and SAML are planned, not shipped. Brand-new compared to Sift's 34,000-site network and Verisoul's high-profile logo book. Documentation has gaps in the corners. If your compliance gate requires SOC 2 Type II today, that's a real reason to wait or to layer DataCops in front of Verisoul rather than instead of it.
+You are a marketing-led SaaS or leadgen team and fake signups are wrecking your ad data more than your product: DataCops.
 
-Wish List: SOC 2 Type II certificate landed. Government-ID verification module for the buyers who need it. SSO/SAML shipped. DSAR API live.
+You are paying Verisoul per-check rates and most of what it catches is obvious bot traffic: move the cheap filtering earlier with DataCops, keep Verisoul only if the uniqueness layer still earns it.
 
-Value for Money: 8.5/10. The bundle math is the story. Pre-filtering bot signups before per-check verification fires saves Verisoul-tier fees on traffic that should never have hit the API. The ad-channel correlation is the part nobody else does.
+You cannot tell which campaigns deliver your fake signups: that is DataCops by definition - Verisoul, Sift and SEON do not have that view.
 
-Pricing: Basic free for 2,000 sessions/mo with unlimited bot detection, 500 signup verifications, 25 HubSpot leads, free CMP. Growth $7.99/mo for 5,000 sessions. Business $49/mo for 50,000 sessions plus HubSpot. Organization $299/mo for 300,000 sessions. Enterprise is custom with dedicated runtime, dedicated IP reputation database, custom DPA, EU/US residency, migration engineer, 99.9% uptime SLA. Overages: sessions $2 per 1,000, HubSpot leads $0.16 per 100, signup verifications $0.019 per 500.
+You are mid-market, do not need 900-signal verification, but do need bot-signup blocking plus CAPI-aware fraud signal: DataCops, and you will likely not miss Verisoul.
 
----
+You are a regulated enterprise that needs SOC 2 Type II on file today: Verisoul or Sift now, and put DataCops back on the list when its audit closes.
 
-## So what should you actually use?
+## You are debugging the symptom
 
-There are a lot of fraud tools in 2026. The AI-bot wave is real and growing. The real question is what your stack actually needs.
+Most teams shopping for a Verisoul alternative are doing it because their user table filled up with junk. Fair.
 
-Want enterprise-grade identity verification with FaceMatch, AML, and Phone Intelligence on a per-check API? Verisoul. Strong product, fair pricing for the depth.
+But the junk in the user table is the cheap problem. The expensive problem is the one you cannot see on the signup dashboard: the fake conversions you already paid to acquire and already taught your ad platforms to chase.
 
-Want the deepest cross-network fraud signal for marketplaces or payments and have an enterprise budget? Sift.
-
-Want European-leaning email and phone enrichment with KYC modules? SEON.
-
-Want the dev-friendly browser fingerprint building block to bolt under another tool? Fingerprint.
-
-Want to block bot signups before any per-check fee fires, tie every signup back to the Meta or Google ad set that delivered it, and bundle that with first-party analytics, server-side CAPI, and consent? DataCops. Free tier is real. Bundle math beats stitching four vendors.
-
-Freemium SaaS getting hit by 20 to 30% bot signups and watching Meta optimization train on the fakes? Layer DataCops at the form (block) and Verisoul behind it (verify the survivors). The pre-filter cuts your per-check spend significantly.
-
-B2B SaaS that mostly worries about disposable email and VPN signups with light fraud volume? DataCops alone is enough. Skip the per-check tax.
+So before you sign anything: do you know which of your campaigns is delivering your fake signups right now? If the answer is no, a verification verdict at the form will not give it to you. You are one layer too late.
 
 ---
 
-## The mistake I see people make
-
-Buying a fraud tool that returns a verdict and stopping there. The verdict isn't the goal. The goal is making your ad spend stop training on fakes. If you don't tie the verdict back to the campaign, ad set, and creative that paid for the fake user, your Meta and Google optimization keeps treating bot signups as conversions and keeps buying the same bad inventory. The fraud dashboard fills up with red flags, the marketing dashboard celebrates the same fake conversions, and your CAC math is wrong on both sides. Verisoul's verdict is solid. The verdict in isolation doesn't move the budget. The verdict tied to the ad set does.
-
----
-
-## Now your turn
-
-What's your bot-signup rate looking like in 2026, and is your fraud tool feeding the verdict back into your ad-platform optimization? Drop your stack in the comments. Especially curious about anyone running Verisoul on freemium and watching the per-check spend scale faster than the conversions.
-
----
-
-Research by [DataCops](https://www.joindatacops.com) · First-party tracking, consent infrastructure & fraud prevention.
+Research by [DataCops](https://www.joindatacops.com) — first-party tracking, consent infrastructure, fraud prevention, and server-side CAPI for Meta, Google, TikTok, and LinkedIn.
